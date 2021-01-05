@@ -14,6 +14,6 @@ namespace QuizService.Data
         {
         }
 
-        public DbSet<QuizService.Models.Quiz> Quiz { get; set; }
+        public DbSet<Quiz> Quiz { get; set; }
     }
 }
