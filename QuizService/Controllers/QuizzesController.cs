@@ -23,14 +23,14 @@ namespace QuizService
 
         // GET: api/Quizzes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Quiz>>> GetQuiz()
+        public async Task<ActionResult<IEnumerable<Quiz>>> GetQuizAsync()
         {
             return await _context.Quiz.ToListAsync();
         }
 
         // GET: api/Quizzes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Quiz>> GetQuiz(int id)
+        public async Task<ActionResult<Quiz>> GetQuizAsync(int id)
         {
             var quiz = await _context.Quiz.FindAsync(id);
 
@@ -42,10 +42,32 @@ namespace QuizService
             return quiz;
         }
 
+        // GET: api/Quizzes/5
+        [HttpGet]
+        [Route("Random")]
+        public async Task<ActionResult<Quiz>> GetRandomQuizAsync() {
+            var numberOfQuizzes = _context.Quiz.Count();
+            var r = new Random();
+            var randomId = r.Next(1, numberOfQuizzes + 1);
+            while (QuizExists(randomId) is not true) {
+                randomId = r.Next(1, numberOfQuizzes + 1);
+            }
+            var quiz = await _context.Quiz
+                .Include(x => x.Questions)
+                .ThenInclude(y => y.Answers)
+                .Where(z => z.Id == randomId)
+                .FirstOrDefaultAsync();
+            if (quiz == null) {
+                return NotFound();
+            }
+
+            return quiz;
+        }
+
         // PUT: api/Quizzes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuiz(int id, Quiz quiz)
+        public async Task<IActionResult> PutQuizAsync(int id, Quiz quiz)
         {
             if (id != quiz.Id)
             {
@@ -76,7 +98,7 @@ namespace QuizService
         // POST: api/Quizzes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Quiz>> PostQuiz(Quiz quiz)
+        public async Task<ActionResult<Quiz>> PostQuizAsync(Quiz quiz)
         {
             _context.Quiz.Add(quiz);
             await _context.SaveChangesAsync();
@@ -86,14 +108,18 @@ namespace QuizService
 
         // DELETE: api/Quizzes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuiz(int id)
+        public async Task<IActionResult> DeleteQuizAsync(int id)
         {
-            var quiz = await _context.Quiz.FindAsync(id);
+            var quiz = await _context.Quiz
+                .Include(x => x.Questions)
+                .ThenInclude(y => y.Answers)
+                .Where(z => z.Id == id)
+                .FirstOrDefaultAsync();
             if (quiz == null)
             {
                 return NotFound();
             }
-
+            
             _context.Quiz.Remove(quiz);
             await _context.SaveChangesAsync();
 

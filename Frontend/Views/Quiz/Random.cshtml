@@ -1,0 +1,15 @@
+﻿@model Frontend.Quiz
+@{
+
+    ViewData["Title"] = "Random Quiz";
+}
+<h1>@ViewData["Title"]</h1>
+<p>@Model.Id</p>
+ @if(Model.Questions != null) {
+    foreach (var question in Model.Questions) {
+        <p>@question.Text</p>
+        foreach (var answer in question.Answers) {
+            <p>@answer.Text</p>
+        }
+    }
+ }

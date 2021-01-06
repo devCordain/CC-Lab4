@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Test {
     [TestClass]
     public class UnitTest1 {
-        //DeleteQuiz(id)
-
+        TestData testData = new TestData();
         private QuizContext CreateContextWithData(IEnumerable<Quiz> quizzes = null) {
             var options = new DbContextOptionsBuilder<QuizContext>()
                 .UseInMemoryDatabase(databaseName: "MockQuizDatabase")
@@ -28,31 +27,7 @@ namespace Test {
         public async Task Posting_quizzes_should_save_to_database() {
             using var context = CreateContextWithData();
             var quizzesController = new QuizzesController(context);
-            var actionResult = await quizzesController.PostQuiz(new Quiz() {
-                Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-            });
+            var actionResult = await quizzesController.PostQuiz(testData.GetDefaultQuiz());
             Assert.AreEqual(201, (actionResult.Result as CreatedAtActionResult).StatusCode);
             await context.Database.EnsureDeletedAsync();
         }
@@ -60,56 +35,8 @@ namespace Test {
         [TestMethod]
         public async Task Get_quiz_should_return_a_list_from_database() {
             var quiz = new List<Quiz>() {
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                },
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                }
+                testData.GetDefaultQuiz(),
+                testData.GetDefaultQuiz()
             };
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
@@ -120,58 +47,7 @@ namespace Test {
 
         [TestMethod]
         public async Task Get_quiz_with_id_should_return_the_specified_quiz_from_database() {
-            var quiz = new List<Quiz>() {
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                },
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                }
-            };
+            var quiz = testData.GetDefaultQuizzes(2);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             var quizzes = await quizzesController.GetQuiz(2);
@@ -190,58 +66,7 @@ namespace Test {
 
         [TestMethod]
         public async Task Updating_a_quiz_should_return_expected_result() {
-            var quiz = new List<Quiz>() {
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                },
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                }
-            };
+            var quiz = testData.GetDefaultQuizzes(2);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             quiz[1].Questions[0].Text = "How many Trumpets does it take to blow the vote blue in USA?";
@@ -256,58 +81,7 @@ namespace Test {
 
         [TestMethod]
         public async Task Delete_quiz_should_return_expected_result() {
-            var quiz = new List<Quiz>() {
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                },
-                new Quiz() {
-                    Questions = new List<Question>() {
-                        new Question() {
-                            Text = "How many programmers does it take to write a test?",
-                            Answers = new List<Answer>() {
-                                new Answer(){
-                                    Text = "1",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "2",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "3",
-                                    IsCorrect = false
-                                },
-                                new Answer(){
-                                    Text = "Out of range exception",
-                                    IsCorrect = true
-                                }
-                            }
-                        }
-                    }
-                }
-            };
+            var quiz = testData.GetDefaultQuizzes(2);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             var actualSuccess = await quizzesController.DeleteQuiz(2);

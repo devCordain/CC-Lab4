@@ -24,6 +24,10 @@ a {
   border-color: #1861ac;
 }
 
+.nav-item :hover{
+    background-color: yellow;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -61,6 +65,8 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background-image: url('../Media/Background.jpg');
+  background-size: cover;
 }
 .footer {
   position: absolute;
