@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace Test {
     class TestData {
-        public Quiz GetDefaultQuiz() {
-            return new Quiz() {
-                Questions = new List<Question>() {
-                    new Question() {
+        public Quiz GetDefaultBackendQuiz() {
+            return new QuizService.Models.Quiz() {
+                Questions = new List<QuizService.Models.Question>() {
+                    new QuizService.Models.Question() {
                         Text = "How many programmers does it take to write a test?",
-                        Answers = new List<Answer>() {
-                            new Answer() {
+                        Answers = new List<QuizService.Models.Answer>() {
+                            new QuizService.Models.Answer() {
                                 Text = "1",
                                 IsCorrect = false
                             },
-                            new Answer() {
+                            new QuizService.Models.Answer() {
                                 Text = "2",
                                 IsCorrect = false
                             },
-                            new Answer() {
+                            new QuizService.Models.Answer() {
                                 Text = "3",
                                 IsCorrect = false
                             },
-                            new Answer() {
+                            new QuizService.Models.Answer() {
                                 Text = "Out of range exception",
                                 IsCorrect = true
                             }
@@ -35,10 +35,46 @@ namespace Test {
             };
         }
 
-        public List<Quiz> GetDefaultQuizzes(int numberOfQuizzes) {
-            var quizzes = new List<Quiz>();
+        public List<Quiz> GetDefaultBackendQuizzes(int numberOfQuizzes) {
+            var quizzes = new List<QuizService.Models.Quiz>();
             for (int i = 0; i < numberOfQuizzes; i++) {
-                quizzes.Add(GetDefaultQuiz());
+                quizzes.Add(GetDefaultBackendQuiz());
+            }
+            return quizzes;
+        }
+
+        public Frontend.Quiz GetDefaultFrontendQuiz() {
+            return new Frontend.Quiz() {
+                Questions = new List<Frontend.Question>() {
+                    new Frontend.Question() {
+                        Text = "How many programmers does it take to write a test?",
+                        Answers = new List<Frontend.Answer>() {
+                            new Frontend.Answer() {
+                                Text = "1",
+                                IsCorrect = false
+                            },
+                            new Frontend.Answer() {
+                                Text = "2",
+                                IsCorrect = false
+                            },
+                            new Frontend.Answer() {
+                                Text = "3",
+                                IsCorrect = false
+                            },
+                            new Frontend.Answer() {
+                                Text = "Out of range exception",
+                                IsCorrect = true
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        public List<Frontend.Quiz> GetDefaultFrontendQuizzes(int numberOfQuizzes) {
+            var quizzes = new List<Frontend.Quiz>();
+            for (int i = 0; i < numberOfQuizzes; i++) {
+                quizzes.Add(GetDefaultFrontendQuiz());
             }
             return quizzes;
         }

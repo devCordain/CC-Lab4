@@ -19,7 +19,7 @@ namespace Test.Helpers
             // Arrange
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/";
-            var quiz = new TestData().GetDefaultQuiz();
+            var quiz = new TestData().GetDefaultBackendQuiz();
             var jsonString = JsonConvert.SerializeObject(quiz);
             var httpResponseMessage = new HttpResponseMessage()
             {
@@ -37,7 +37,7 @@ namespace Test.Helpers
             // Arrange
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/";
-            var quiz = new TestData().GetDefaultQuiz();
+            var quiz = new TestData().GetDefaultBackendQuiz();
             var jsonString = JsonConvert.SerializeObject(quiz);
             var httpResponseMessage = new HttpResponseMessage()
             {

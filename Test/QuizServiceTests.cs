@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Test {
     [TestClass]
-    public class UnitTest1 {
+    public class QuizServiceTests {
         TestData testData = new TestData();
         private QuizContext CreateContextWithData(IEnumerable<Quiz> quizzes = null) {
             var options = new DbContextOptionsBuilder<QuizContext>()
@@ -27,7 +27,7 @@ namespace Test {
         public async Task Posting_quizzes_should_save_to_database() {
             using var context = CreateContextWithData();
             var quizzesController = new QuizzesController(context);
-            var actionResult = await quizzesController.PostQuizAsync(testData.GetDefaultQuiz());
+            var actionResult = await quizzesController.PostQuizAsync(testData.GetDefaultBackendQuiz());
             Assert.AreEqual(201, (actionResult.Result as CreatedAtActionResult).StatusCode);
             await context.Database.EnsureDeletedAsync();
         }
@@ -35,8 +35,8 @@ namespace Test {
         [TestMethod]
         public async Task Get_quiz_should_return_a_list_from_database() {
             var quiz = new List<Quiz>() {
-                testData.GetDefaultQuiz(),
-                testData.GetDefaultQuiz()
+                testData.GetDefaultBackendQuiz(),
+                testData.GetDefaultBackendQuiz()
             };
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
@@ -47,7 +47,7 @@ namespace Test {
 
         [TestMethod]
         public async Task Get_quiz_with_id_should_return_the_specified_quiz_from_database() {
-            var quiz = testData.GetDefaultQuizzes(2);
+            var quiz = testData.GetDefaultBackendQuizzes(2);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             var quizzes = await quizzesController.GetQuizAsync(2);
@@ -67,7 +67,7 @@ namespace Test {
         [TestMethod]
         public async Task Get_random_quiz_Should_return_expected_result()
         {
-            var quiz = testData.GetDefaultQuizzes(1);
+            var quiz = testData.GetDefaultBackendQuizzes(1);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             var quizzes = await quizzesController.GetRandomQuizAsync();
@@ -76,7 +76,7 @@ namespace Test {
         }
 
         [TestMethod]
-        public async Task Get_random_quiz_Should_return_expected_result_If_quiz_is_empy()
+        public async Task Get_random_quiz_Should_return_expected_result_If_quiz_is_empty()
         {
             using var context = CreateContextWithData(new List<Quiz>() {new Quiz()});
             var quizzesController = new QuizzesController(context);
@@ -86,8 +86,18 @@ namespace Test {
         }
 
         [TestMethod]
+        public async Task Get_random_quiz_Should_return_expected_result_If_no_quiz_exists()
+        {
+            using var context = CreateContextWithData();
+            var quizzesController = new QuizzesController(context);
+            var quizzes = await quizzesController.GetRandomQuizAsync();
+            Assert.AreEqual(404, (quizzes.Result as NotFoundResult).StatusCode);
+            await context.Database.EnsureDeletedAsync();
+        }
+
+        [TestMethod]
         public async Task Updating_a_quiz_should_return_expected_result() {
-            var quiz = testData.GetDefaultQuizzes(2);
+            var quiz = testData.GetDefaultBackendQuizzes(2);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             quiz[1].Questions[0].Text = "How many Trumpets does it take to blow the vote blue in USA?";
@@ -102,7 +112,7 @@ namespace Test {
 
         [TestMethod]
         public async Task Delete_quiz_should_return_expected_result() {
-            var quiz = testData.GetDefaultQuizzes(2);
+            var quiz = testData.GetDefaultBackendQuizzes(2);
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             var actualSuccess = await quizzesController.DeleteQuizAsync(2);

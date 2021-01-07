@@ -27,6 +27,7 @@ namespace Frontend {
                 throw new NotSupportedException("Serialize to Json failed", e);
             }
             catch (Exception e) {
+                // Do we need this? The "IsSuccessful" check below should handle most errors
                 throw new Exception("Post to QuizService failed", e);
             }
             if (!result.IsSuccessStatusCode) {

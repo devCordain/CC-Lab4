@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Frontend\Frontend.csproj" />
     <ProjectReference Include="..\QuizService\QuizService.csproj" />
   </ItemGroup>
 
