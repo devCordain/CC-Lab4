@@ -47,6 +47,8 @@ namespace QuizService
         [Route("Random")]
         public async Task<ActionResult<Quiz>> GetRandomQuizAsync() {
             var numberOfQuizzes = _context.Quiz.Count();
+            if (numberOfQuizzes < 1)
+                return NotFound();
             var r = new Random();
             var randomId = r.Next(1, numberOfQuizzes + 1);
             while (QuizExists(randomId) is not true) {
@@ -57,7 +59,7 @@ namespace QuizService
                 .ThenInclude(y => y.Answers)
                 .Where(z => z.Id == randomId)
                 .FirstOrDefaultAsync();
-            if (quiz == null) {
+            if (!quiz.Questions.Any()) {
                 return NotFound();
             }
 
