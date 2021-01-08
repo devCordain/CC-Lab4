@@ -19,4 +19,4 @@ RUN dotnet publish "Frontend.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "run", "--server.urls", "http://*:5000"]
+ENTRYPOINT ["dotnet", "Frontend.dll"]

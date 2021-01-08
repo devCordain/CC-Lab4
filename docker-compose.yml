@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  frontend:
+    image: ${DOCKER_REGISTRY-}frontend
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+
+  quizservice:
+    image: ${DOCKER_REGISTRY-}quizservice
+    build:
+      context: .
+      dockerfile: QuizService/Dockerfile
