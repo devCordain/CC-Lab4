@@ -19,9 +19,6 @@ namespace Test.Helpers
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var pre = messages.Keys.First();
-            var reqeustUri = request.RequestUri.ToString();
-
             if (!messages.ContainsKey(request.RequestUri.ToString()))
             {
                 throw new Exception($"The request Uri {request.RequestUri} does not match any of the PreDefined uris {messages.Keys}");

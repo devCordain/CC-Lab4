@@ -23,9 +23,6 @@ namespace Frontend {
                 jsonQuiz = JsonConvert.SerializeObject(quiz);
                 result = await httpClient.PostAsync(quizServiceController, new StringContent(jsonQuiz));
             }
-            catch (NotSupportedException e) {
-                throw new NotSupportedException("Serialize to Json failed", e);
-            }
             catch (Exception e) {
                 // Do we need this? The "IsSuccessful" check below should handle most errors
                 throw new Exception("Post to QuizService failed", e);
@@ -120,9 +117,6 @@ namespace Frontend {
             try {
                 jsonQuiz = JsonConvert.SerializeObject(quiz);
                 result = await httpClient.PutAsync(quizServiceController + id, new StringContent(jsonQuiz));
-            }
-            catch (NotSupportedException e) {
-                throw new NotSupportedException("Serialize to Json failed", e);
             }
             catch (Exception e) {
                 throw new Exception("Put to QuizService failed", e);

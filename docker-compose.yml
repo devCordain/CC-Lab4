@@ -6,9 +6,26 @@ services:
     build:
       context: .
       dockerfile: Frontend/Dockerfile
+    depends_on:
+    - quizservice
 
   quizservice:
     image: ${DOCKER_REGISTRY-}quizservice
     build:
       context: .
       dockerfile: QuizService/Dockerfile
+    depends_on:
+    - database
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-CU8-ubuntu-16.04
+    ports:
+      - "1433:1433"
+    environment:
+       - ACCEPT_EULA=Y 
+       - SA_PASSWORD=Password-1
+    volumes:
+       - quizdata:/storage/quizzes
+
+volumes:
+  quizdata: {}

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QuizService.Data;
+using QuizService.Models;
 
 namespace QuizService {
     public class Startup {
@@ -50,6 +51,41 @@ namespace QuizService {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                .CreateScope()) {
+                serviceScope.ServiceProvider
+                    .GetService<QuizContext>()
+                    .Database
+                    .Migrate();
+                serviceScope.ServiceProvider
+                    .GetService<QuizContext>().Add(new Quiz() {
+                        Questions = new List<Question>() {
+                            new Question() {
+                                Text = "How many programmers does it take to write a test?",
+                                Answers = new List<Answer>() {
+                                    new Answer() {
+                                        Text = "1",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "2",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "3",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "Out of range exception",
+                                        IsCorrect = true
+                                    }
+                                }
+                            }
+                        }
+                    });
+                serviceScope.ServiceProvider
+                    .GetService<QuizContext>().SaveChanges();
+            }
         }
     }
 }
