@@ -80,6 +80,48 @@ namespace QuizService {
                                         IsCorrect = true
                                     }
                                 }
+                            },
+                            new Question() {
+                                Text = "How many programmers does it take to write a test?",
+                                Answers = new List<Answer>() {
+                                    new Answer() {
+                                        Text = "1",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "2",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "3",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "Out of range exception",
+                                        IsCorrect = true
+                                    }
+                                }
+                            },
+                            new Question() {
+                                Text = "How many programmers does it take to write a test?",
+                                Answers = new List<Answer>() {
+                                    new Answer() {
+                                        Text = "1",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "2",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "3",
+                                        IsCorrect = false
+                                    },
+                                    new Answer() {
+                                        Text = "Out of range exception",
+                                        IsCorrect = true
+                                    }
+                                }
                             }
                         }
                     });

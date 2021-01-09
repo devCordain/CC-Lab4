@@ -80,7 +80,7 @@ namespace Test
                     StatusCode = HttpStatusCode.Created,
                     Content = new StringContent(jsonString)
                 });
-            
+            // TODO: Should assert
             await new QuizServiceClient(GetDefaultConfiguration(), client).CreateQuizAsync(quiz);
         }
 
@@ -112,7 +112,7 @@ namespace Test
                 {
                     StatusCode = HttpStatusCode.NoContent
                 });
-            
+            // TODO: Should assert
             await new QuizServiceClient(GetDefaultConfiguration(), client).DeleteQuizAsync(id);
         }
 

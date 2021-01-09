@@ -42,7 +42,7 @@ namespace QuizService
             return quiz;
         }
 
-        // GET: api/Quizzes/5
+        // GET: api/Quizzes/Random
         [HttpGet]
         [Route("Random")]
         public async Task<ActionResult<Quiz>> GetRandomQuizAsync() {
