@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;using System.Threading.Tasks;
 using Frontend;
 
 namespace Test.Fakes
@@ -11,9 +8,9 @@ namespace Test.Fakes
     {
         public List<Quiz> _quizzes { get; private set; }
 
-        public QuizServiceClientFake(IEnumerable<Quiz> expectedQuizzes = null)
+        public QuizServiceClientFake(IEnumerable<Quiz> expectedQuizzes)
         {
-            _quizzes = expectedQuizzes.ToList();
+            _quizzes = expectedQuizzes?.ToList();
         }
 
         public async Task<Quiz> GetQuizAsync(int id)
@@ -39,14 +36,20 @@ namespace Test.Fakes
 
         public async Task UpdateQuizAsync(int id, Quiz quiz)
         {
-            
-            await Task.Run(() => _quizzes[id] = quiz);
+            var localQuiz = _quizzes.FirstOrDefault(x => x.Id == id);
+            if (localQuiz is not null)
+            {
+                await Task.Run(() => _quizzes[_quizzes.IndexOf(localQuiz)] = quiz);
+            }
         }
 
         public async Task DeleteQuizAsync(int id)
         {
-            
-            await Task.Run(() => _quizzes.RemoveAt(id));
+            var localQuiz = _quizzes.FirstOrDefault(x => x.Id == id);
+            if (localQuiz is not null)
+            {
+                await Task.Run(() => _quizzes.RemoveAt(_quizzes.IndexOf(localQuiz)));
+            }
         }
     }
 }
