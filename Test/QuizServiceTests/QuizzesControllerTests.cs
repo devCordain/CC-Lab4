@@ -1,15 +1,16 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QuizService.Data;
-using QuizService;
-using QuizService.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QuizService;
+using QuizService.Data;
+using QuizService.Models;
 
-namespace Test {
+namespace Test.QuizServiceTests
+{
     [TestClass]
-    public class QuizServiceTests {
+    public class QuizzesControllerTests {
         TestData testData = new TestData();
         private QuizContext CreateContextWithData(IEnumerable<Quiz> quizzes = null) {
             var options = new DbContextOptionsBuilder<QuizContext>()
