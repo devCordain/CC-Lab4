@@ -23,7 +23,7 @@ namespace Test
         [TestMethod]
         public void Index_Should_return_expected_view()
         {
-            var controller = new QuizController(null, null);
+            var controller = new QuizController( null);
             var result = controller.Index() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null
@@ -35,7 +35,7 @@ namespace Test
         {
 
             var quiz = new TestData().GetDefaultFrontendQuiz();
-            var controller = new QuizController(null, new QuizServiceClientFake(new List<Quiz>()
+            var controller = new QuizController(new QuizServiceClientFake(new List<Quiz>()
             {
                 quiz
             }));
@@ -49,7 +49,7 @@ namespace Test
         [TestMethod]
         public void Admin_Should_return_expected_view()
         {
-            var controller = new QuizController(null, null);
+            var controller = new QuizController( null);
             var result = controller.Admin() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null
@@ -59,7 +59,7 @@ namespace Test
         [TestMethod]
         public void Privacy_Should_return_expected_view()
         {
-            var controller = new QuizController(null, null);
+            var controller = new QuizController( null);
             var result = controller.Privacy() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null

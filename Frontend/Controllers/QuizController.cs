@@ -10,11 +10,9 @@ using System.Threading.Tasks;
 
 namespace Frontend.Controllers {
     public class QuizController : Controller {
-        private readonly ILogger<QuizController> _logger;
         private readonly IQuizServiceClient _quizServiceClient;
 
-        public QuizController(ILogger<QuizController> logger, IQuizServiceClient quizServiceClient) {
-            _logger = logger;
+        public QuizController(IQuizServiceClient quizServiceClient) {
             _quizServiceClient = quizServiceClient;
         }
 
