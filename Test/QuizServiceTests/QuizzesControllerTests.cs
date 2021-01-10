@@ -29,7 +29,7 @@ namespace Test.QuizServiceTests
             using var context = CreateContextWithData();
             var quizzesController = new QuizzesController(context);
             var actionResult = await quizzesController.PostQuizAsync(testData.GetDefaultBackendQuiz());
-            Assert.AreEqual(201, (actionResult.Result as CreatedAtActionResult).StatusCode);
+            Assert.AreEqual(201, (actionResult.Result as CreatedAtActionResult)?.StatusCode);
             await context.Database.EnsureDeletedAsync();
         }
 
@@ -42,7 +42,7 @@ namespace Test.QuizServiceTests
             using var context = CreateContextWithData(quiz);
             var quizzesController = new QuizzesController(context);
             var quizzes = await quizzesController.GetQuizAsync();
-            Assert.AreEqual(2, (quizzes.Value as List<Quiz>).Count);
+            Assert.AreEqual(2, (quizzes.Value as List<Quiz>)?.Count);
             await context.Database.EnsureDeletedAsync();
         }
 
@@ -61,7 +61,7 @@ namespace Test.QuizServiceTests
             using var context = CreateContextWithData();
             var quizzesController = new QuizzesController(context);
             var quizzes = await quizzesController.GetQuizAsync(2);
-            Assert.AreEqual(404, (quizzes.Result as NotFoundResult).StatusCode);
+            Assert.AreEqual(404, (quizzes.Result as NotFoundResult)?.StatusCode);
             await context.Database.EnsureDeletedAsync();
         }
 
@@ -82,7 +82,7 @@ namespace Test.QuizServiceTests
             using var context = CreateContextWithData(new List<Quiz>() {new Quiz()});
             var quizzesController = new QuizzesController(context);
             var quizzes = await quizzesController.GetRandomQuizAsync();
-            Assert.AreEqual(404, (quizzes.Result as NotFoundResult).StatusCode);
+            Assert.AreEqual(404, (quizzes.Result as NotFoundResult)?.StatusCode);
             await context.Database.EnsureDeletedAsync();
         }
 
@@ -105,8 +105,8 @@ namespace Test.QuizServiceTests
             var quizzes = await quizzesController.PutQuizAsync(2, quiz[1]);
             var badResultQuizzes = await quizzesController.PutQuizAsync(3, quiz[1]);
             var notFoundQuizzes = await quizzesController.PutQuizAsync(12, quiz[1]);
-            Assert.AreEqual(204, (quizzes as NoContentResult).StatusCode);
-            Assert.AreEqual(400, (badResultQuizzes as BadRequestResult).StatusCode);
+            Assert.AreEqual(204, (quizzes as NoContentResult)?.StatusCode);
+            Assert.AreEqual(400, (badResultQuizzes as BadRequestResult)?.StatusCode);
             // We would like to test DBUpdateConcurrencyException but cannot find a feasable way to test this within scope of this assignment (need to install separate testing framework)
             await context.Database.EnsureDeletedAsync();
         }
@@ -118,8 +118,8 @@ namespace Test.QuizServiceTests
             var quizzesController = new QuizzesController(context);
             var actualSuccess = await quizzesController.DeleteQuizAsync(2);
             var actualFail = await quizzesController.DeleteQuizAsync(2);
-            Assert.AreEqual(204, (actualSuccess as NoContentResult).StatusCode);
-            Assert.AreEqual(404, (actualFail as NotFoundResult).StatusCode);
+            Assert.AreEqual(204, (actualSuccess as NoContentResult)?.StatusCode);
+            Assert.AreEqual(404, (actualFail as NotFoundResult)?.StatusCode);
             await context.Database.EnsureDeletedAsync();
         }
     }

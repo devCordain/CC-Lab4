@@ -18,7 +18,7 @@ namespace Test.FrontendTests
             var result = controller.Index() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null
-            Assert.AreEqual(null, result.ViewName);
+            Assert.AreEqual(null, result?.ViewName);
         }
 
         [TestMethod]
@@ -33,8 +33,8 @@ namespace Test.FrontendTests
             var result = await controller.Random() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null
-            Assert.AreEqual(null, result.ViewName);
-            Assert.AreEqual(quiz, result.Model);
+            Assert.AreEqual(null, result?.ViewName);
+            Assert.AreEqual(quiz, result?.Model);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Test.FrontendTests
             var result = controller.Admin() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null
-            Assert.AreEqual(null, result.ViewName);
+            Assert.AreEqual(null, result?.ViewName);
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace Test.FrontendTests
             var result = controller.Privacy() as ViewResult;
             // If fetching a page based on the Action name, I.E "Index", thus not using any arguments within the "View()" method
             // the ViewName property in the ViewResult will be null
-            Assert.AreEqual(null, result.ViewName);
+            Assert.AreEqual(null, result?.ViewName);
         }
     }
 }
