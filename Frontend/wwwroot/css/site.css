@@ -28,6 +28,14 @@ a {
     background-color: yellow;
 }
 
+incorrect{
+    background: red;
+}
+
+correct{
+    background: green;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

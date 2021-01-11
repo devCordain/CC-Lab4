@@ -28,7 +28,6 @@ namespace Test.FrontendTests
                     StatusCode = HttpStatusCode.Created,
                     Content = new StringContent(jsonString)
                 });
-            // TODO: Should assert
             await new QuizServiceClient(GetDefaultConfiguration(), client).CreateQuizAsync(quiz);
         }
 
@@ -60,7 +59,6 @@ namespace Test.FrontendTests
                 {
                     StatusCode = HttpStatusCode.NoContent
                 });
-            // TODO: Should assert
             await new QuizServiceClient(GetDefaultConfiguration(), client).DeleteQuizAsync(id);
         }
 
@@ -82,7 +80,7 @@ namespace Test.FrontendTests
         }
 
         [TestMethod]
-        public async Task Get_quiz_Should_succeed()
+        public async Task Get_quiz_Should_return_expected_object()
         {
             var baseUri = "http://localhost:60479/";
             var id = 1;
@@ -135,7 +133,7 @@ namespace Test.FrontendTests
         }
 
         [TestMethod]
-        public async Task Get_random_quiz_Should_succeed()
+        public async Task Get_random_quiz_Should_expected_object()
         {
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/Random/";
@@ -153,7 +151,7 @@ namespace Test.FrontendTests
 
         [TestMethod]
         public async Task
-            Get_random_quiz_Should_throw_HttpRequestException_If_client_returns_non_successful_statuscode()
+            Get_random_quiz_Should_throw_Exception_If_client_returns_non_successful_statuscode()
         {
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/Random/";
@@ -170,7 +168,7 @@ namespace Test.FrontendTests
         }
 
         [TestMethod]
-        public async Task Get_random_quiz_Should_throw_Exception_If_response_content_cannot_be_deserialized()
+        public async Task Get_random_quiz_Should_throw_HttpRequestException_If_response_content_cannot_be_deserialized()
         {
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/Random/";
@@ -186,7 +184,7 @@ namespace Test.FrontendTests
         }
 
         [TestMethod]
-        public async Task Get_all_quizzes_Should_succeed()
+        public async Task Get_all_quizzes_Should_return_a_collection_of_expected_objects()
         {
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/";
@@ -203,19 +201,18 @@ namespace Test.FrontendTests
         }
 
         [TestMethod]
-        public async Task
-            Get_all_quizzes_Should_throw_HttpRequestException_If_client_returns_non_successful_statuscode()
+        public async Task Get_all_quizzes_Should_throw_HttpRequestException_If_client_returns_non_successful_statuscode()
         {
             var baseUri = "http://localhost:60479/";
             var url = "api/Quizzes/";
             var client = CreateTestClient(baseUri, url,
                 new HttpResponseMessage()
                 {
-                    StatusCode = HttpStatusCode.OK,
+                    StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent("BAD CONTENT")
                 });
 
-            await Assert.ThrowsExceptionAsync<Exception>(
+            await Assert.ThrowsExceptionAsync<HttpRequestException>(
                 () => new QuizServiceClient(GetDefaultConfiguration(), client)
                     .GetQuizAsync());
         }
@@ -228,11 +225,11 @@ namespace Test.FrontendTests
             var client = CreateTestClient(baseUri, url,
                 new HttpResponseMessage()
                 {
-                    StatusCode = HttpStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.OK,
                     Content = new StringContent("BAD CONTENT")
                 });
 
-            await Assert.ThrowsExceptionAsync<HttpRequestException>(
+            await Assert.ThrowsExceptionAsync<Exception>(
                 () => new QuizServiceClient(GetDefaultConfiguration(), client)
                     .GetQuizAsync());
         }
@@ -292,11 +289,9 @@ namespace Test.FrontendTests
             {
                 {"QuizServiceClientUrl", "http://localhost:60479/"}
             };
-
             return new ConfigurationBuilder()
                 .AddInMemoryCollection(myConfiguration)
                 .Build();
-
         }
     }
 }

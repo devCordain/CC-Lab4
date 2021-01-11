@@ -10,7 +10,7 @@
             <p id="text"class="text-black-50">@question.Text</p>
             <div id="answers">
             @foreach (var answer in question.Answers) {
-                <button id="@answer.Id" onClick="setAnswer(@answer.Id, @answer.IsCorrect)">@answer.Text</button>
+                <button id="@answer.Id" onClick="setAnswer(@answer.Id, '@answer.IsCorrect')">@answer.Text</button>
             }
             </div>
          </div>
